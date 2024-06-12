@@ -275,5 +275,6 @@ Gostaria de expressar meus sinceros agradecimentos aos colegas que me ajudaram a
 - <a href="https://github.com/Gian-UC">Giancarlo Salomone</a>
 - <a href="https://github.com/Flamota">Flávia Mota</a>
 - <a href="https://github.com/elivaldoquio">Elivaldo dos Santos</a>
+- <a href="http://www.github.com/EricAssisDev">Erick Assis</a>
   
 A colaboração e apoio de vocês foram essenciais para o sucesso deste projeto. Muito obrigado!
