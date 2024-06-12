@@ -16,31 +16,31 @@ Este projeto desenvolve uma API para um sistema de PDV (Ponto de Venda), com foc
 ## Instalação
 
 ### Clone o repositório:
-\`\`\`bash
+````bash
 git clone https://github.com/seu-usuario/seu-repositorio.git
 cd seu-repositorio
-\`\`\`
+````
 
 ### Instale as dependências:
-\`\`\`bash
+````bash
 npm install
-\`\`\`
+````
 
 ### Configure o arquivo .env:
 Crie um arquivo \`.env\` na raiz do projeto e defina as variáveis de ambiente:
-\`\`\`
+````
 DATABASE_URL=postgres://seu_usuario:sua_senha@host_do_postgresql:5432/nome_do_seu_banco
 ACCESS_TOKEN_SECRET=sua_chave_secreta
 PORT=3000
-\`\`\`
+````
 
 ### Configure o banco de dados:
 Crie o banco de dados \`pdv\` no PostgreSQL e execute as migrações e seeds:
 
-\`\`\`bash
+````bash
 npx knex migrate:latest
 npx knex seed:run
-\`\`\`
+````
 
 ## Estrutura do Projeto:
 
@@ -82,39 +82,39 @@ pdv-api/
 **Método:** POST  
 **URL:** /usuarios/register  
 **Body (JSON):**
-\`\`\`json
+````json
 {
   "nome": "Seu Nome",
   "email": "seuemail@exemplo.com",
   "senha": "suaSenha"
 }
-\`\`\`
+````
 
 **Resposta:**
-\`\`\`json
+````json
 {
   "id": 1,
   "message": "Usuário cadastrado com sucesso"
 }
-\`\`\`
+````
 
 ### Login de Usuário
 **Método:** POST  
 **URL:** /usuarios/login  
 **Body (JSON):**
-\`\`\`json
+````json
 {
   "email": "seuemail@exemplo.com",
   "senha": "suaSenha"
 }
-\`\`\`
+````
 
 **Resposta:**
-\`\`\`json
+````json
 {
   "accessToken": "token_jwt_aqui"
 }
-\`\`\`
+````
 
 ### Obter Perfil do Usuário
 **Método:** GET  
@@ -123,13 +123,13 @@ pdv-api/
 \`Authorization: Bearer <token_jwt_aqui>\`
 
 **Resposta:**
-\`\`\`json
+````json
 {
   "id": 1,
   "nome": "Seu Nome",
   "email": "seuemail@exemplo.com"
 }
-\`\`\`
+````
 
 ### Atualizar Perfil do Usuário
 **Método:** PUT  
@@ -138,27 +138,27 @@ pdv-api/
 \`Authorization: Bearer <token_jwt_aqui>\`
 
 **Body (JSON):**
-\`\`\`json
+````json
 {
   "nome": "Nome Atualizado",
   "email": "emailatualizado@exemplo.com",
   "senha": "novaSenha"
 }
-\`\`\`
+````
 
 **Resposta:**
-\`\`\`json
+````json
 {
   "message": "Perfil atualizado com sucesso"
 }
-\`\`\`
+````
 
 ### Listar Categorias
 **Método:** GET  
 **URL:** /categorias  
 
 **Resposta:**
-\`\`\`json
+```json
 [
   { "id": 1, "descricao": "Informática" },
   { "id": 2, "descricao": "Celulares" },
@@ -170,15 +170,15 @@ pdv-api/
   { "id": 8, "descricao": "Bebê" },
   { "id": 9, "descricao": "Games" }
 ]
-\`\`\`
+```
 
 ## Executando a API
 
 Para executar a API em modo de desenvolvimento, utilize o seguinte comando:
 
-\`\`\`bash
+````bash
 npm run dev
-\`\`\`
+````
 
 A API estará acessível em [http://localhost:3000](http://localhost:3000).
 
@@ -198,13 +198,13 @@ A API estará acessível em [http://localhost:3000](http://localhost:3000).
 2. Defina o método como POST e a URL como [http://localhost:3000/usuarios/register](http://localhost:3000/usuarios/register).
 3. No cabeçalho "Body", selecione a opção "JSON" e cole o seguinte payload:
 
-\`\`\`json
+````json
 {
   "nome": "Seu Nome",
   "email": "seuemail@exemplo.com",
   "senha": "suaSenha"
 }
-\`\`\`
+````
 
 4. Clique em "Enviar" para realizar a requisição.
 5. A resposta deve conter o código de status 201 e um JSON com o ID do usuário cadastrado e a mensagem "Usuário cadastrado com sucesso".
@@ -214,12 +214,12 @@ A API estará acessível em [http://localhost:3000](http://localhost:3000).
 2. Defina o método como POST e a URL como [http://localhost:3000/usuarios/login](http://localhost:3000/usuarios/login).
 3. No cabeçalho "Body", selecione a opção "JSON" e cole o seguinte payload:
 
-\`\`\`json
+````json
 {
   "email": "seuemail@exemplo.com",
   "senha": "suaSenha"
 }
-\`\`\`
+````
 
 4. Clique em "Enviar" para realizar a requisição.
 5. A resposta deve conter o código de status 200 e um JSON com o token JWT no campo "accessToken". Armazene este token para as próximas requisições.
@@ -237,13 +237,13 @@ A API estará acessível em [http://localhost:3000](http://localhost:3000).
 3. No cabeçalho "Authorization", adicione o tipo de autenticação como Bearer e o token JWT obtido no login no campo "Token".
 4. No cabeçalho "Body", selecione a opção "JSON" e cole o seguinte payload, substituindo os valores com as suas novas informações:
 
-\`\`\`json
+````json
 {
   "nome": "Nome Atualizado",
   "email": "emailatualizado@exemplo.com",
   "senha": "novaSenha"
 }
-\`\`\`
+````
 
 5. Clique em "Enviar" para realizar a requisição.
 6. A resposta deve conter o código de status 200 e um JSON com a mensagem "Perfil atualizado com sucesso".
