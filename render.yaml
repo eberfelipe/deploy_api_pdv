@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: pdv-api
+    env: node
+    plan: free
+    buildCommand: npm install && npx knex migrate:latest && npx knex seed:run
+    startCommand: node src/index.js
+    envVars:
+      - key: DATABASE_URL
+        fromSecret: DATABASE_URL
+      - key: ACCESS_TOKEN_SECRET
+        fromSecret: ACCESS_TOKEN_SECRET
+      - key: PORT
+        value: 3000
