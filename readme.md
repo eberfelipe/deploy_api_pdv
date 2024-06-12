@@ -42,8 +42,10 @@ npx knex migrate:latest
 npx knex seed:run
 \`\`\`
 
+
+```markdown
 ## Estrutura do Projeto:
-\```
+
 pdv-api/
 ├── config/
 │   └── database.js
@@ -66,7 +68,8 @@ pdv-api/
 ├── .env
 ├── .gitignore
 └── package.json
-\```
+```markdown
+
 
 ### Observações:
 - Substitua \`seu-usuario\`, \`sua_senha\`, \`host_do_postgresql\` e \`nome_do_seu_banco\` pelas suas credenciais de banco de dados.
