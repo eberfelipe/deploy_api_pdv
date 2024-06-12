@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: pdv-api
+    env: node
+    plan: free
+    buildCommand: npm install && npx knex migrate:latest && npx knex seed:run
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        value: postgres://postgres.ufiihcaoinqnqdegknsz:Gkssf5q5J1IIilYD@aws-0-ca-central-1.pooler.supabase.com:6543/postgres
+      - key: ACCESS_TOKEN_SECRET
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmaWloY2FvaW5xbnFkZWdrbnN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNDk1ODIsImV4cCI6MjAzMzcyNTU4Mn0.g_zagWfdryIzwmQfMNOaaOrMLPozDEF22VgMfR6uBgE
+      - key: PORT
+        value: 3000
