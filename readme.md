@@ -45,30 +45,23 @@ npx knex seed:run
 ## Estrutura do Projeto:
 \`\`\`
 pdv-api/
-│
 ├── config/
-│  └── database.js
-│
+│   └── database.js
 ├── controllers/
-│  ├── categoryController.js
-│  └── userController.js
-│
+│   ├── categoryController.js
+│   └── userController.js
 ├── middlewares/
-│  └── authMiddleware.js
-│
+│   └── authMiddleware.js
 ├── migrations/
-│  ├── timestamp_create_usuarios_table.js
-│  └── timestamp_create_categorias_table.js
-│
+│   ├── timestamp_create_usuarios_table.js
+│   └── timestamp_create_categorias_table.js
 ├── routes/
-│  ├── categoryRoutes.js
-│  └── userRoutes.js
-│
+│   ├── categoryRoutes.js
+│   └── userRoutes.js
 ├── seeds/
-│  └── timestamp_seed_categorias.js
-│
+│   └── timestamp_seed_categorias.js
 ├── src/
-│  └── index.js
+│   └── index.js
 ├── knexfile.js
 ├── .env
 ├── .gitignore
