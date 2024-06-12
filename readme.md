@@ -267,9 +267,13 @@ Este projeto está licenciado sob a MIT License. Consulte o arquivo LICENSE para
 ## Conclusão:
 Este guia completo fornece instruções detalhadas sobre como testar os endpoints da API PDV usando o Insomnia.
 
-## Agradecimentos
-Gostaria de agradecer a todos que contribuíram para o desenvolvimento deste projeto PDV API.
+## Agradecimentos e Colaboração
 
-Agradecimentos individuais:
-"""
+Gostaria de expressar meus sinceros agradecimentos aos colegas que me ajudaram a criar este projeto:
+
+- <a href="https://github.com/rafaelps10">Rafael Pinto Santos</a>
+- <a href="https://github.com/Gian-UC">Giancarlo Salomone</a>
+
+A colaboração e apoio de vocês foram essenciais para o sucesso deste projeto. Muito obrigado!
+
 
