@@ -14,6 +14,7 @@ app.use("/categorias", categoryRoutes);
 app.use("/usuarios", userRoutes);
 app.use("/clientes", clientRoutes);
 app.use("/produtos", productRoutes);
+
 app.get("/", (req, res) => {
   res.send("API is running");
 });

@@ -1,19 +1,18 @@
-// seeds/timestamp_seed_categorias.js
-
 exports.seed = function(knex) {
+  // Deletes ALL existing entries
   return knex('categorias').del()
     .then(function () {
-      // Insere os dados iniciais na tabela 'categorias'
+      // Inserts seed entries
       return knex('categorias').insert([
-        {descricao: 'Informática'},
-        {descricao: 'Celulares'},
-        {descricao: 'Beleza e Perfumaria'},
-        {descricao: 'Mercado'},
-        {descricao: 'Livros e Papelaria'},
-        {descricao: 'Brinquedos'},
-        {descricao: 'Moda'},
-        {descricao: 'Bebê'},
-        {descricao: 'Games'}
+        {id: 1, descricao: 'Informática'},
+        {id: 2, descricao: 'Celulares'},
+        {id: 3, descricao: 'Beleza e Perfumaria'},
+        {id: 4, descricao: 'Mercado'},
+        {id: 5, descricao: 'Livros e Papelaria'},
+        {id: 6, descricao: 'Brinquedos'},
+        {id: 7, descricao: 'Moda'},
+        {id: 8, descricao: 'Bebê'},
+        {id: 9, descricao: 'Games'}
       ]);
     });
 };
