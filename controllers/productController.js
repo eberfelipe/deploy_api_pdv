@@ -1,72 +1,62 @@
-const knex = require("../config/database");
+const knex = require('../config/database');
 
-const listProducts = async (req, res) => {
-  const categoria_id = req.query.categoria_id;
-  let produtosFiltrados;
+const clientUpdate = async (req, res) => {
+    const { id } = req.params;
+    const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
 
-  try {
-    if (categoria_id) {
-      produtosFiltrados = await knex("produtos").where({ categoria_id });
-      console.log(produtosFiltrados);
-    } else {
-      produtosFiltrados = await knex("produtos");
+    try {
+        await knex("clientes")
+            .where({ id })
+            .update({ nome, email, cpf, cep, rua, numero, bairro, cidade, estado });
+
+        return res.status(201).json({ mensagem: "Cliente atualizado com sucesso." });
+    } catch (error) {
+        return res.status(500).json({ mensagem: "Erro interno do servidor." });
     }
-
-    return res.status(200).json(produtosFiltrados);
-  } catch (erro) {
-    console.error(erro);
-    return res.status(500).json({
-      Mensagem: "Erro interno no servidor!",
-    });
-  }
 };
 
-const updateProduct = async (req, res) => {
-  const { id } = req.user;
-  const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
-
-  if (!descricao || !quantidade_estoque || !valor || !categoria_id) {
-    return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
-  }
-
-  const product = await knex('produtos').where({ id }).first();
-
-  if (!product) {
-    return res.status(404).send('Produto não encontrado');
-  }
-
-  try {
-    await knex('produtos')
-      .where({ id })
-      .update({
-        descricao,
-        quantidade_estoque,
-        valor,
-        categoria_id
-      });
-
-    res.send('Produto editado com sucesso');
-  } catch (error) {
-    return res.status(500).json({ message: 'Internal Server Error' });
-  }
+const detailClient = async (req, res) => {
+    const clientId = req.params.id;
+    console.log(clientId);
+    try {
+        const client = await knex("clientes")
+            .select("*")
+            .where({ id: clientId })
+            .first();
+        if (!client) {
+            return res.status(404).json({ message: "Cliente não encontrado" });
+        }
+        return res.status(200).json(client);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
 };
 
-const listProduct = async (req, res) => {
-  const { id } = req.params;
+const registerClient = async (req, res) => {
+    const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
 
-  try {
-    const product = await knex('produtos').where({ id }).first();
-    if (!product) {
-      return res.status(404).send('Produto não encontrado');
+    try {
+        await knex('clientes').insert({
+            nome,
+            email,
+            cpf,
+            cep,
+            rua,
+            numero,
+            bairro,
+            cidade,
+            estado
+        });
+
+        return res.status(201).json('Cliente cadastrado com sucesso!');  
+    } catch (error) {
+        return res.status(500).json(error.message);  
     }
-    res.json(product);
-  } catch (error) {
-    res.status(500).send('Internal Server Error');
-  }
 };
 
 module.exports = {
-  listProducts,
-  updateProduct,
-  listProduct
+    clientUpdate,
+    detailClient,
+    registerClient
 };

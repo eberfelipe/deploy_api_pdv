@@ -13,6 +13,15 @@ const {
 } = require("../middlewares/clientMiddleware");
 const authMiddleware = require('../middlewares/authMiddleware');
 
+router.get("/:id", clientController.detailClient);
+
+router.post(
+  '/',
+  authMiddleware,
+  validateNewClient,
+  clientController.registerClient
+);
+
 router.put(
   '/:id',
   authMiddleware,
@@ -24,13 +33,6 @@ router.put(
   verifyCpfExistsUpdate,
   verifyEmailExistsUpdateClients,
   clientController.clientUpdate
-);
-
-router.post(
-  '/',
-  authMiddleware,
-  validateNewClient,
-  clientController.registerClient
 );
 
 module.exports = router;
