@@ -2,37 +2,20 @@ const express = require("express");
 const router = express.Router();
 const clientController = require("../controllers/clientController");
 const {
-  verifyId,
-  verifyClientIdExists,
-  verifyName,
-  verifyEmail,
-  verifyCpf,
-  verifyCpfExistsUpdate,
-  verifyEmailExistsUpdateClients,
-  validateNewClient
+  verificarId,
+  verificarClienteIdExiste,
+  verificarNome,
+  verificarEmail,
+  verificarCpf,
+  verificarCpfExisteAtualizacao,
+  verificarEmailExisteAtualizacaoClientes,
+  validarNovoCliente
 } = require("../middlewares/clientMiddleware");
 const authMiddleware = require('../middlewares/authMiddleware');
 
-router.get("/:id", clientController.detailClient);
-
-router.post(
-  '/',
-  authMiddleware,
-  validateNewClient,
-  clientController.registerClient
-);
-
-router.put(
-  '/:id',
-  authMiddleware,
-  verifyId,
-  verifyClientIdExists,
-  verifyName,
-  verifyEmail,
-  verifyCpf,
-  verifyCpfExistsUpdate,
-  verifyEmailExistsUpdateClients,
-  clientController.clientUpdate
-);
+router.get("/:id", authMiddleware, clientController.obterDetalhesCliente);
+router.post('/', authMiddleware, validarNovoCliente, clientController.registrarCliente);
+router.put('/:id', authMiddleware, verificarId, verificarClienteIdExiste, verificarNome, verificarEmail, verificarCpf, verificarCpfExisteAtualizacao, verificarEmailExisteAtualizacaoClientes, clientController.atualizarCliente);
+router.get('/', authMiddleware, clientController.listarClientes);
 
 module.exports = router;

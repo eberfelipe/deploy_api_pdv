@@ -1,6 +1,7 @@
 const knex = require('../config/database');
 
-const clientUpdate = async (req, res) => {
+// Atualizar informações do cliente
+const atualizarCliente = async (req, res) => {
     const { id } = req.params;
     const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
 
@@ -9,31 +10,32 @@ const clientUpdate = async (req, res) => {
             .where({ id })
             .update({ nome, email, cpf, cep, rua, numero, bairro, cidade, estado });
 
-        return res.status(201).json({ mensagem: "Cliente atualizado com sucesso." });
+        return res.status(200).json({ mensagem: "Cliente atualizado com sucesso." });
     } catch (error) {
         return res.status(500).json({ mensagem: "Erro interno do servidor." });
     }
 };
 
-const detailClient = async (req, res) => {
-    const clientId = req.params.id;
-    console.log(clientId);
+// Obter detalhes do cliente
+const obterDetalhesCliente = async (req, res) => {
+    const idCliente = req.params.id;
+    
     try {
-        const client = await knex("clientes")
+        const cliente = await knex("clientes")
             .select("*")
-            .where({ id: clientId })
+            .where({ id: idCliente })
             .first();
-        if (!client) {
-            return res.status(404).json({ message: "Cliente não encontrado" });
+        if (!cliente) {
+            return res.status(404).json({ mensagem: "Cliente não encontrado" });
         }
-        return res.status(200).json(client);
+        return res.status(200).json(cliente);
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ mensagem: "Erro interno do servidor." });
     }
 };
 
-const registerClient = async (req, res) => {
+// Registrar novo cliente
+const registrarCliente = async (req, res) => {
     const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
 
     try {
@@ -49,14 +51,25 @@ const registerClient = async (req, res) => {
             estado
         });
 
-        return res.status(201).json('Cliente cadastrado com sucesso!');  
+        return res.status(201).json({ mensagem: 'Cliente registrado com sucesso!' });  
     } catch (error) {
-        return res.status(500).json(error.message);  
+        return res.status(500).json({ mensagem: error.message });  
+    }
+};
+
+// Listar todos os clientes
+const listarClientes = async (req, res) => {
+    try {
+        const clientes = await knex('clientes').select('*');
+        return res.status(200).json(clientes);
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro ao listar clientes' });
     }
 };
 
 module.exports = {
-    clientUpdate,
-    detailClient,
-    registerClient
+    atualizarCliente,
+    obterDetalhesCliente,
+    registrarCliente,
+    listarClientes
 };

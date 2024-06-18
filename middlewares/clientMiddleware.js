@@ -1,132 +1,96 @@
 const knex = require("../config/database");
 
-const verifyId = async (req, res, next) => {
+const verificarId = async (req, res, next) => {
   const { id } = req.params;
-
   if (!id) {
-    return res.status(400).json({ mensagem: "ID não informado" });
+    return res.status(400).json({ mensagem: "ID não fornecido" });
   }
-
   if (isNaN(id)) {
-    return res.status(400).json({ mensagem: "ID precisa ser um número" });
+    return res.status(400).json({ mensagem: "ID deve ser um número" });
   }
-  
   next();
 };
 
-const verifyClientIdExists = async (req, res, next) => {
+const verificarClienteIdExiste = async (req, res, next) => {
   const { id } = req.params;
-  
-  console.log("ID recebido na requisição:", id);
-
-  const idExists = await knex('clientes').where({ id }).first();
-
-  console.log("Cliente encontrado:", idExists);
-
-  if (!idExists) {
-    return res.status(404).json({ mensagem: "O cliente informado não existe." });
+  const idExiste = await knex('clientes').where({ id }).first();
+  if (!idExiste) {
+    return res.status(404).json({ mensagem: "Cliente não encontrado" });
   }
-
-  
   next();
 };
 
-const verifyName = (req, res, next) => {
-  let { nome } = req.body;
-
+const verificarNome = (req, res, next) => {
+  const { nome } = req.body;
   if (!nome) {
-    return res.status(400).json("O Campo nome é obrigatório.");
+    return res.status(400).json({ mensagem: "Nome é obrigatório" });
   }
-
   next();
 };
 
-const verifyEmail = (req, res, next) => {
-  let { email } = req.body;
-
+const verificarEmail = (req, res, next) => {
+  const { email } = req.body;
   if (!email) {
-    return res.status(400).json("O Campo email é obrigatório.");
+    return res.status(400).json({ mensagem: "Email é obrigatório" });
   }
-
   next();
 };
 
-const verifyCpf = (req, res, next) => {
-  let { cpf } = req.body;
-
+const verificarCpf = (req, res, next) => {
+  const { cpf } = req.body;
   if (!cpf) {
-    return res.status(400).json("O Campo cpf é obrigatório.");
+    return res.status(400).json({ mensagem: "CPF é obrigatório" });
   }
-
   next();
 };
 
-const verifyCpfExistsUpdate = async (req, res, next) => {
+const verificarCpfExisteAtualizacao = async (req, res, next) => {
   const { id } = req.params;
   const { cpf } = req.body;
-
   const cpfExiste = await knex("clientes").where({ cpf }).whereNot({ id }).first();
-
   if (cpfExiste) {
-    return res.status(400).json("O CPF já existe");
+    return res.status(400).json({ mensagem: "CPF já existe" });
   }
-
   next();
 };
 
-const verifyEmailExistsUpdateClients = async (req, res, next) => {
-  let { email } = req.body;
+const verificarEmailExisteAtualizacaoClientes = async (req, res, next) => {
+  const { email } = req.body;
   const { id } = req.params;
-
-  const emailExiste = await knex("clientes")
-    .where({ email })
-    .whereNot({ id })
-    .first();
-
+  const emailExiste = await knex("clientes").where({ email }).whereNot({ id }).first();
   if (emailExiste) {
-    return res.status(400).json("O Email já existe");
+    return res.status(400).json({ mensagem: "Email já existe" });
   }
-
   next();
 };
 
-const validateNewClient = async (req, res, next) => {
+const validarNovoCliente = async (req, res, next) => {
   const { nome, email, cpf } = req.body;
-
   if (!nome || !email || !cpf) {
-    return res.status(400).json({message:'Todos os campos devem ser preenchidos!'});
+    return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
   }
-
   try {
-    const client = await knex('clientes')
-      .where({email})
-      .first();
-
-    if (client) {
-      return res.status(401).json('Email já cadastrado.');
+    const cliente = await knex('clientes').where({ email }).first();
+    if (cliente) {
+      return res.status(401).json({ mensagem: "Email já registrado" });
     }
-
-    const clientCpf = await knex('clientes')
-      .where({cpf})
-      .first();
-    
-    if (clientCpf) {
-      return res.status(401).json('Cpf já cadastrado.');
+    const clienteCpf = await knex('clientes').where({ cpf }).first();
+    if (clienteCpf) {
+      return res.status(401).json({ mensagem: "CPF já registrado" });
     }
-
     next();
   } catch (error) {
-    return res.status(401).json(error.message);
+    return res.status(500).json({ mensagem: error.message });
   }
-}
+};
 
 module.exports = {
-  verifyId,
-  verifyClientIdExists,
-  verifyName,
-  verifyEmail,
-  verifyCpf,
-  verifyCpfExistsUpdate,
-  verifyEmailExistsUpdateClients,
-  validateNewClient
+  verificarId,
+  verificarClienteIdExiste,
+  verificarNome,
+  verificarEmail,
+  verificarCpf,
+  verificarCpfExisteAtualizacao,
+  verificarEmailExisteAtualizacaoClientes,
+  validarNovoCliente
 };

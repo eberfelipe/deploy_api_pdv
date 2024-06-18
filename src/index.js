@@ -5,20 +5,20 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const categoryRoutes = require("../routes/categoryRoutes");
-const userRoutes = require("../routes/userRoutes");
-const clientRoutes = require("../routes/clientRoutes");
-const productRoutes = require("../routes/productRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+const userRoutes = require("./routes/userRoutes");
+const clientRoutes = require("./routes/clientRoutes");
+const productRoutes = require("./routes/productRoutes");
 
-app.use("/categorias", categoryRoutes);
-app.use("/usuarios", userRoutes);
-app.use("/clientes", clientRoutes);
-app.use("/produtos", productRoutes);
+app.use("/categories", categoryRoutes);
+app.use("/users", userRoutes);
+app.use("/clients", clientRoutes);
+app.use("/products", productRoutes);
 
 app.get("/", (req, res) => {
-  res.send("API is running");
+  res.send("API está rodando");
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Servidor rodando na porta ${port}`);
 });

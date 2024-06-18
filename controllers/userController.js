@@ -2,79 +2,79 @@ const bcrypt = require("bcrypt");
 const db = require("../config/database");
 const jwt = require("jsonwebtoken");
 
-const registerUser = async (req, res) => {
+const registrarUsuario = async (req, res) => {
     const { nome, email, senha } = req.body;
 
     if (!nome || !email || !senha) {
-        return res.status(400).json({ message: "Nome, email e senha são obrigatórios" });
+        return res.status(400).json({ mensagem: "Nome, email e senha são obrigatórios" });
     }
 
     try {
-        const existingEmail = await db("usuarios").where({ email }).first();
+        const emailExistente = await db("usuarios").where({ email }).first();
 
-        if (existingEmail) {
-            return res.status(400).json({ message: "O email usado já existe" });
+        if (emailExistente) {
+            return res.status(400).json({ mensagem: "O email usado já existe" });
         }
 
-        const hashedPassword = await bcrypt.hash(senha, 10);
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
 
-        const [userId] = await db("usuarios").insert({
+        const [idUsuario] = await db("usuarios").insert({
             nome,
             email,
-            senha: hashedPassword
+            senha: senhaCriptografada
         }).returning('id');
 
-        return res.status(201).json({ id: userId, message: "Usuário cadastrado com sucesso" });
+        return res.status(201).json({ id: idUsuario, mensagem: "Usuário cadastrado com sucesso" });
     } catch (error) {
-        return res.status(500).json({ message: "Internal Server Error: " + error.message });
+        return res.status(500).json({ mensagem: "Erro interno do servidor: " + error.message });
     }
 };
 
-const loginUser = async (req, res) => {
+const logarUsuario = async (req, res) => {
     const { email, senha } = req.body;
 
     if (!email || !senha) {
-        return res.status(400).json({ message: 'Email e senha são obrigatórios' });
+        return res.status(400).json({ mensagem: 'Email e senha são obrigatórios' });
     }
 
     try {
-        const user = await db('usuarios').where({ email }).first();
+        const usuario = await db('usuarios').where({ email }).first();
 
-        if (!user || !(await bcrypt.compare(senha, user.senha))) {
-            return res.status(401).json({ message: 'Credenciais inválidas' });
+        if (!usuario || !(await bcrypt.compare(senha, usuario.senha))) {
+            return res.status(401).json({ mensagem: 'Credenciais inválidas' });
         }
 
-        const accessToken = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
-        return res.json({ accessToken });
+        const tokenAcesso = jwt.sign({ id: usuario.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+        return res.json({ tokenAcesso });
     } catch (error) {
-        return res.status(500).json({ message: 'Internal Server Error: ' + error.message });
+        return res.status(500).json({ mensagem: 'Erro interno do servidor: ' + error.message });
     }
 };
 
-const getUserProfile = async (req, res) => {
+const obterPerfilUsuario = async (req, res) => {
     return res.status(200).json(req.user);
 }
 
-const updateUserProfile = async (req, res) => {
+const atualizarPerfilUsuario = async (req, res) => {
     const { id } = req.user;
     const { nome, email, senha } = req.body;
 
     if (!nome || !email || !senha) {
-        return res.status(400).json({ message: 'Nome, email e senha são obrigatórios' });
+        return res.status(400).json({ mensagem: 'Nome, email e senha são obrigatórios' });
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(senha, 10);
-        await db('usuarios').where({ id }).update({ nome, email, senha: hashedPassword });
-        res.status(200).json({ message: 'Perfil atualizado com sucesso' });
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+        await db('usuarios').where({ id }).update({ nome, email, senha: senhaCriptografada });
+        res.status(200).json({ mensagem: 'Perfil atualizado com sucesso' });
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error: ' + error.message });
+        res.status(500).json({ mensagem: 'Erro interno do servidor: ' + error.message });
     }
 }
 
 module.exports = {
-    registerUser,
-    loginUser,
-    getUserProfile,
-    updateUserProfile
+    registrarUsuario,
+    logarUsuario,
+    obterPerfilUsuario,
+    atualizarPerfilUsuario
 };

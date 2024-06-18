@@ -1,14 +1,14 @@
 const knex = require('../config/database');
 
-const listCategories = async (req, res) => {
+const listarCategorias = async (req, res) => {
   try {
-    const categories = await knex.select('*').from('categorias');
-    return res.status(200).json(categories);
+    const categorias = await knex.select('*').from('categorias');
+    return res.status(200).json(categorias);
   } catch (error) {
-    return res.status(500).json({ message: 'Internal Server Error' });
+    return res.status(500).json({ mensagem: 'Erro interno do servidor' });
   }
 };
 
 module.exports = {
-  listCategories
+  listarCategorias
 };
