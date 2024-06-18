@@ -7,9 +7,11 @@ app.use(express.json());
 
 const categoryRoutes = require('../routes/categoryRoutes');
 const userRoutes = require('../routes/userRoutes');
+const clientRoutes = require('../routes/clientRoutes');
 
 app.use('/categorias', categoryRoutes);
 app.use('/usuarios', userRoutes);
+app.use('/clientes', clientRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running');
