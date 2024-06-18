@@ -5,10 +5,10 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const categoryRoutes = require("./routes/categoryRoutes");
-const userRoutes = require("./routes/userRoutes");
-const clientRoutes = require("./routes/clientRoutes");
-const productRoutes = require("./routes/productRoutes");
+const categoryRoutes = require("../routes/categoryRoutes"); 
+const userRoutes = require("../routes/userRoutes"); 
+const clientRoutes = require("../routes/clientRoutes"); 
+const productRoutes = require("../routes/productRoutes"); 
 
 app.use("/categories", categoryRoutes);
 app.use("/users", userRoutes);
