@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const clientUpdate = require("../controllers/clientController");
+const clientController = require("../controllers/clientController");
 const {
   verifyId,
   verifyClientIdExists,
@@ -8,7 +8,8 @@ const {
   verifyEmail,
   verifyCpf,
   verifyCpfExistsUpdate,
-  verifyEmailExistsUpdateClients
+  verifyEmailExistsUpdateClients,
+  validateNewClient
 } = require("../middlewares/clientMiddleware");
 const authMiddleware = require('../middlewares/authMiddleware');
 
@@ -22,7 +23,14 @@ router.put(
   verifyCpf,
   verifyCpfExistsUpdate,
   verifyEmailExistsUpdateClients,
-  clientUpdate
+  clientController.clientUpdate
+);
+
+router.post(
+  '/',
+  authMiddleware,
+  validateNewClient,
+  clientController.registerClient
 );
 
 module.exports = router;

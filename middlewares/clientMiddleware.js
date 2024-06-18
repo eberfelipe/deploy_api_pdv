@@ -90,6 +90,36 @@ const verifyEmailExistsUpdateClients = async (req, res, next) => {
   next();
 };
 
+const validateNewClient = async (req, res, next) => {
+  const { nome, email, cpf } = req.body;
+
+  if (!nome || !email || !cpf) {
+    return res.status(400).json({message:'Todos os campos devem ser preenchidos!'});
+  }
+
+  try {
+    const client = await knex('clientes')
+      .where({email})
+      .first();
+
+    if (client) {
+      return res.status(401).json('Email já cadastrado.');
+    }
+
+    const clientCpf = await knex('clientes')
+      .where({cpf})
+      .first();
+    
+    if (clientCpf) {
+      return res.status(401).json('Cpf já cadastrado.');
+    }
+
+    next();
+  } catch (error) {
+    return res.status(401).json(error.message);
+  }
+}
+
 module.exports = {
   verifyId,
   verifyClientIdExists,
@@ -97,5 +127,6 @@ module.exports = {
   verifyEmail,
   verifyCpf,
   verifyCpfExistsUpdate,
-  verifyEmailExistsUpdateClients
+  verifyEmailExistsUpdateClients,
+  validateNewClient
 };

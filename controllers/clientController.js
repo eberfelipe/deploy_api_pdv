@@ -16,4 +16,39 @@ const clientUpdate = async (req, res) => {
     };
 };
 
-module.exports = clientUpdate;
+const registerClient = async (req, res) => {
+    const { nome, 
+            email, 
+            cpf, 
+            cep, 
+            rua, 
+            numero, 
+            bairro, 
+            cidade, 
+            estado
+        } = req.body;
+
+    try {
+        await knex('clientes').insert({
+            nome,
+            email,
+            cpf,
+            cep,
+            rua,
+            numero,
+            bairro,
+            cidade,
+            estado
+
+        });
+
+        return res.status(201).json('Cliente cadastrado com sucesso!');  
+    } catch (error) {
+        return res.status(500).json(error.message);  
+    }
+}
+
+module.exports = {
+    clientUpdate,
+    registerClient
+}
