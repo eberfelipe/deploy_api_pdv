@@ -4,16 +4,21 @@ const deletarProduto = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const produto = await knex('produtos').where({ id }).first();
+    const produto = await db('produtos').where({ id }).first();
     if (!produto) {
-      return res.status(404).json({ mensagem: 'Produto não encontrado' });
+      return res.status(404).json({ error: 'Produto não encontrado' });
     }
 
-    await knex('produtos').where({ id }).del();
+    const produtoVinculado = await db('pedido_produtos').where({ produto_id: id }).first();
+    if (produtoVinculado) {
+      return res.status(400).json({ error: 'Produto vinculado a um pedido, não pode ser excluído' });
+    }
+
+    await db('produtos').where({ id }).del();
 
     res.status(204).send();
   } catch (error) {
-    res.status(500).json({ mensagem: 'Erro ao excluir produto' });
+    res.status(500).json({ error: 'Erro ao excluir produto' });
   }
 };
 
