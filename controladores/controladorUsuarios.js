@@ -52,11 +52,11 @@ const logarUsuario = async (req, res) => {
 };
 
 const obterPerfilUsuario = async (req, res) => {
-    return res.status(200).json(req.user);
+    return res.status(200).json(req.usuario);
 }
 
 const atualizarPerfilUsuario = async (req, res) => {
-    const { id } = req.user;
+    const { id } = req.usuario;
     const { nome, email, senha } = req.body;
 
     if (!nome || !email || !senha) {

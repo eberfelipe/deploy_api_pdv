@@ -1,6 +1,5 @@
 const knex = require('../config/database');
 
-// Atualizar informações do cliente
 const atualizarCliente = async (req, res) => {
     const { id } = req.params;
     const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
@@ -16,7 +15,6 @@ const atualizarCliente = async (req, res) => {
     }
 };
 
-// Obter detalhes do cliente
 const obterDetalhesCliente = async (req, res) => {
     const idCliente = req.params.id;
     
@@ -34,7 +32,6 @@ const obterDetalhesCliente = async (req, res) => {
     }
 };
 
-// Registrar novo cliente
 const registrarCliente = async (req, res) => {
     const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
 
@@ -57,7 +54,6 @@ const registrarCliente = async (req, res) => {
     }
 };
 
-// Listar todos os clientes
 const listarClientes = async (req, res) => {
     try {
         const clientes = await knex('clientes').select('*');

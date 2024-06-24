@@ -1,24 +1,24 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
+const porta = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const categoryRoutes = require("../routes/categoryRoutes"); 
-const userRoutes = require("../routes/userRoutes"); 
-const clientRoutes = require("../routes/clientRoutes"); 
-const productRoutes = require("../routes/productRoutes"); 
+const rotasCategorias = require("../rotas/rotasCategorias"); 
+const rotasUsuarios = require("../rotas/rotasUsuarios"); 
+const rotasClientes = require("../rotas/rotasClientes"); 
+const rotasProdutos = require("../rotas/rotasProdutos"); 
 
-app.use("/categories", categoryRoutes);
-app.use("/users", userRoutes);
-app.use("/clients", clientRoutes);
-app.use("/products", productRoutes);
+app.use("/categorias", rotasCategorias);
+app.use("/usuarios", rotasUsuarios);
+app.use("/clientes", rotasClientes);
+app.use("/produtos", rotasProdutos);
 
 app.get("/", (req, res) => {
   res.send("API está rodando");
 });
 
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+app.listen(porta, () => {
+  console.log(`Servidor rodando na porta ${porta}`);
 });

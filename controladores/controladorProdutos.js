@@ -4,12 +4,12 @@ const deletarProduto = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const produto = await db('produtos').where({ id }).first();
+    const produto = await knex('produtos').where({ id }).first();
     if (!produto) {
       return res.status(404).json({ mensagem: 'Produto não encontrado' });
     }
 
-    await db('produtos').where({ id }).del();
+    await knex('produtos').where({ id }).del();
 
     res.status(204).send();
   } catch (error) {
@@ -17,23 +17,15 @@ const deletarProduto = async (req, res) => {
   }
 };
 
-const registerProduct = async (req, res) => {
+// Registrar produto
+const registrarProduto = async (req, res) => {
+  const camposObrigatorios = ['descricao', 'quantidade_estoque', 'valor', 'categoria_id'];
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
 
-  if (!descricao) {
-    return res.status(400).json("O campo descricao é obrigatório");
-  }
-
-  if (!quantidade_estoque) {
-    return res.status(400).json("O campo quantidade_estoque é obrigatório");
-  }
-
-  if (!valor) {
-    return res.status(400).json("O campo valor é obrigatório");
-  }
-
-  if (!categoria_id) {
-    return res.status(400).json("O campo categoria_id é obrigatório");
+  for (const campo of camposObrigatorios) {
+    if (!req.body[campo]) {
+      return res.status(400).json({ mensagem: `O campo ${campo} é obrigatório` });
+    }
   }
 
   try {
@@ -47,16 +39,16 @@ const registerProduct = async (req, res) => {
       .returning("*");
 
     if (!produto[0]) {
-      return res.status(400).json("O produto não foi cadastrado");
+      return res.status(400).json({ mensagem: "O produto não foi cadastrado" });
     }
 
     return res.status(200).json(produto[0]);
   } catch (error) {
-    return res.status(500).json(error.message);
+    return res.status(500).json({ mensagem: error.message });
   }
 };
 
 module.exports = {
   deletarProduto,
-  registerProduct
+  registrarProduto
 };

@@ -1,5 +1,14 @@
 const knex = require("../config/database");
 
+const validarCampos = (camposObrigatorios) => (req, res, next) => {
+  for (const campo of camposObrigatorios) {
+    if (!req.body[campo]) {
+      return res.status(400).json({ mensagem: `O campo ${campo} é obrigatório` });
+    }
+  }
+  next();
+};
+
 const verificarId = async (req, res, next) => {
   const { id } = req.params;
   if (!id) {
@@ -20,44 +29,15 @@ const verificarClienteIdExiste = async (req, res, next) => {
   next();
 };
 
-const verificarNome = (req, res, next) => {
-  const { nome } = req.body;
-  if (!nome) {
-    return res.status(400).json({ mensagem: "Nome é obrigatório" });
-  }
-  next();
-};
-
-const verificarEmail = (req, res, next) => {
-  const { email } = req.body;
-  if (!email) {
-    return res.status(400).json({ mensagem: "Email é obrigatório" });
-  }
-  next();
-};
-
-const verificarCpf = (req, res, next) => {
-  const { cpf } = req.body;
-  if (!cpf) {
-    return res.status(400).json({ mensagem: "CPF é obrigatório" });
-  }
-  next();
-};
-
-const verificarCpfExisteAtualizacao = async (req, res, next) => {
+const verificarCpfEmailExistenteAtualizacao = async (req, res, next) => {
   const { id } = req.params;
-  const { cpf } = req.body;
+  const { cpf, email } = req.body;
   const cpfExiste = await knex("clientes").where({ cpf }).whereNot({ id }).first();
+  const emailExiste = await knex("clientes").where({ email }).whereNot({ id }).first();
+  
   if (cpfExiste) {
     return res.status(400).json({ mensagem: "CPF já existe" });
   }
-  next();
-};
-
-const verificarEmailExisteAtualizacaoClientes = async (req, res, next) => {
-  const { email } = req.body;
-  const { id } = req.params;
-  const emailExiste = await knex("clientes").where({ email }).whereNot({ id }).first();
   if (emailExiste) {
     return res.status(400).json({ mensagem: "Email já existe" });
   }
@@ -65,16 +45,14 @@ const verificarEmailExisteAtualizacaoClientes = async (req, res, next) => {
 };
 
 const validarNovoCliente = async (req, res, next) => {
-  const { nome, email, cpf } = req.body;
-  if (!nome || !email || !cpf) {
-    return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
-  }
+  const { email, cpf } = req.body;
   try {
-    const cliente = await knex('clientes').where({ email }).first();
-    if (cliente) {
+    const clienteEmail = await knex('clientes').where({ email }).first();
+    const clienteCpf = await knex('clientes').where({ cpf }).first();
+
+    if (clienteEmail) {
       return res.status(401).json({ mensagem: "Email já registrado" });
     }
-    const clienteCpf = await knex('clientes').where({ cpf }).first();
     if (clienteCpf) {
       return res.status(401).json({ mensagem: "CPF já registrado" });
     }
@@ -87,10 +65,7 @@ const validarNovoCliente = async (req, res, next) => {
 module.exports = {
   verificarId,
   verificarClienteIdExiste,
-  verificarNome,
-  verificarEmail,
-  verificarCpf,
-  verificarCpfExisteAtualizacao,
-  verificarEmailExisteAtualizacaoClientes,
+  validarCampos,
+  verificarCpfEmailExistenteAtualizacao,
   validarNovoCliente
 };
