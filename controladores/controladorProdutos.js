@@ -1,4 +1,5 @@
-const db = require('../config/database');
+const knex = require('../config/database');
+const upload = require('../storege/upload');
 
 const deletarProduto = async (req, res) => {
   const { id } = req.params;
@@ -21,6 +22,8 @@ const deletarProduto = async (req, res) => {
 const registrarProduto = async (req, res) => {
   const camposObrigatorios = ['descricao', 'quantidade_estoque', 'valor', 'categoria_id'];
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+  let produto_imagem = null;
+
 
   for (const campo of camposObrigatorios) {
     if (!req.body[campo]) {
@@ -29,12 +32,23 @@ const registrarProduto = async (req, res) => {
   }
 
   try {
+    const { file } = req;
+
+    if (file) {
+      const uploadImagem = await upload(
+        `produtos/${file.originalname}`,
+          file.buffer,
+          file.mimetype
+      ) 
+      produto_imagem = uploadImagem.url
+    }
     const produto = await knex("produtos")
       .insert({
         descricao,
         quantidade_estoque,
         valor,
         categoria_id,
+        produto_imagem
       })
       .returning("*");
 
