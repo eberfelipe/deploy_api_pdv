@@ -9,10 +9,10 @@ const deletarProduto = async (req, res) => {
       return res.status(404).json({ mensagem: "Produto não encontrado" });
     }
     //validação na exclusão do produto
-    const produtoVinculado = await knex("pedido_produtos")
+    const produtoVinculadoPedido = await knex("pedido_produtos")
       .where({ produto_id: id })
       .first();
-    if (produtoVinculado) {
+    if (produtoVinculadoPedido) {
       return res.status(400).json({
         mensagem: "Produto vinculado a um pedido, não pode ser excluído",
       });
