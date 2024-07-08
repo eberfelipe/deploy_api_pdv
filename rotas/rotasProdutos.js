@@ -9,9 +9,11 @@ const {
   verificarId,
 } = require("../middlewares/middlewareClientes");
 const autenticarToken = require("../middlewares/middlewareAutenticacao");
+const multer = require("../config/multer");
 
 router.post(
   "/",
+  multer.single("produto_imagem"),
   validarCampos(["descricao", "quantidade_estoque", "valor", "categoria_id"]),
   registrarProduto
 );
