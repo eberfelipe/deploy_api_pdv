@@ -7,7 +7,7 @@ module.exports = {
     client: 'pg',
     connection: {
       connectionString: DATABASE_URL,
-      ssl: { rejectUnauthorized: false }
+      //ssl: { rejectUnauthorized: false }
     },
     migrations: {
       directory: './migrations'
@@ -20,7 +20,7 @@ module.exports = {
     client: 'pg',
     connection: {
       connectionString: DATABASE_URL,
-      ssl: { rejectUnauthorized: false }
+      //ssl: { rejectUnauthorized: false }
     },
     migrations: {
       directory: './migrations'
