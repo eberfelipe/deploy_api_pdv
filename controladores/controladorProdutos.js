@@ -27,7 +27,6 @@ const deletarProduto = async (req, res) => {
   }
 };
 
-// Registrar produto
 const registrarProduto = async (req, res) => {
   const camposObrigatorios = [
     "descricao",
