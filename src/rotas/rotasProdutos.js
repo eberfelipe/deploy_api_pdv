@@ -25,7 +25,7 @@ router.get("/", autenticarToken, listarProdutos);
 
 router.get("/:id", autenticarToken, verificarId, detalharProduto);
 
-router.put("/:id", autenticarToken, verificarId, validarCampos(["descricao", "quantidade_estoque", "valor", "categoria_id"]), atualizarProduto);
+router.put("/:id", autenticarToken, verificarId, validarCampos(["descricao", "quantidade_estoque", "valor", "categoria_id"]), multer.single("produto_imagem"), atualizarProduto);
 
 router.delete("/:id", verificarId, autenticarToken, deletarProduto);
 

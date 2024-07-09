@@ -1,5 +1,5 @@
 const db = require('../config/database');
-
+const upload = require('../storage/upload'); 
 const deletarProduto = async (req, res) => {
   const { id } = req.params;
 
@@ -25,6 +25,7 @@ const deletarProduto = async (req, res) => {
 const registrarProduto = async (req, res) => {
   const camposObrigatorios = ['descricao', 'quantidade_estoque', 'valor', 'categoria_id'];
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+  let produto_imagem;
 
   for (const campo of camposObrigatorios) {
     if (!req.body[campo]) {
@@ -33,12 +34,19 @@ const registrarProduto = async (req, res) => {
   }
 
   try {
+    if (req.file) {
+      const { buffer, mimetype } = req.file;
+      const uploadResult = await upload(`produtos/${Date.now()}_${req.file.originalname}`, buffer, mimetype);
+      produto_imagem = uploadResult.url;
+    }
+
     const produto = await db("produtos")
       .insert({
         descricao,
         quantidade_estoque,
         valor,
         categoria_id,
+        produto_imagem
       })
       .returning("*");
 
@@ -84,12 +92,19 @@ const detalharProduto = async (req, res) => {
 
 const atualizarProduto = async (req, res) => {
   const { id } = req.params;
-  const { descricao, quantidade_estoque, valor, categoria_id, produto_imagem } = req.body;
+  const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+  let produto_imagem;
 
   try {
     const produto = await db('produtos').where({ id }).first();
     if (!produto) {
       return res.status(404).json({ mensagem: 'Produto não encontrado' });
+    }
+
+    if (req.file) {
+      const { buffer, mimetype } = req.file;
+      const uploadResult = await upload(`produtos/${Date.now()}_${req.file.originalname}`, buffer, mimetype);
+      produto_imagem = uploadResult.url;
     }
 
     await db('produtos')
