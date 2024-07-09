@@ -5,7 +5,7 @@
       "title": "REST API",
       "description": "API para gerenciamento de usuários, clientes, produtos e pedidos."
     },
-    "host": "https://deploy-api-pdv.onrender.com",
+    "host": "deploy-api-pdv.onrender.com",
     "basePath": "/",
     "schemes": [
       "http"
