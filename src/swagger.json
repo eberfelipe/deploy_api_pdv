@@ -1,0 +1,756 @@
+{    
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "REST API",
+      "description": "API para gerenciamento de usuários, clientes, produtos e pedidos."
+    },
+    "host": "https://deploy-api-pdv.onrender.com",
+    "basePath": "/",
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/": {
+        "get": {
+          "summary": "Verificar status da API",
+          "description": "Endpoint para verificar se a API está funcionando corretamente.",
+          "responses": {
+            "200": {
+              "description": "API está online."
+            }
+          }
+        }
+      },
+      "/categorias/": {
+        "get": {
+          "summary": "Listar categorias",
+          "description": "Retorna uma lista de todas as categorias disponíveis.",
+          "responses": {
+            "200": {
+              "description": "Lista de categorias retornada com sucesso."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      },
+      "/usuarios/registro": {
+        "post": {
+          "summary": "Registrar um novo usuário",
+          "description": "Cria um novo usuário na aplicação.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": ["nome", "email", "senha"],
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "João da Silva"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "joao@example.com"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "example": "senha123"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Usuário criado com sucesso."
+            },
+            "400": {
+              "description": "Dados inválidos fornecidos."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      },
+      "/usuarios/login": {
+        "post": {
+          "summary": "Autenticar usuário",
+          "description": "Realiza a autenticação de um usuário.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": ["email", "senha"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "joao@example.com"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "example": "senha123"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Autenticação bem-sucedida."
+            },
+            "400": {
+              "description": "Dados inválidos fornecidos."
+            },
+            "401": {
+              "description": "Credenciais inválidas."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      },
+      "/usuarios/perfil": {
+        "get": {
+          "summary": "Obter perfil do usuário",
+          "description": "Retorna os dados do perfil do usuário autenticado.",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do perfil retornados com sucesso."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualizar perfil do usuário",
+          "description": "Atualiza os dados do perfil do usuário autenticado.",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "João da Silva"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "joao@example.com"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "example": "nova_senha123"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Perfil atualizado com sucesso."
+            },
+            "400": {
+              "description": "Dados inválidos fornecidos."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      },
+      "/clientes/": {
+        "post": {
+          "summary": "Registrar um novo cliente",
+          "description": "Cria um novo cliente na aplicação.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": ["email", "cpf", "nome", "cep", "rua", "numero", "bairro", "cidade", "estado"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "cliente@example.com"
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-00"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Maria Oliveira"
+                  },
+                  "cep": {
+                    "type": "string",
+                    "example": "12345-678"
+                  },
+                  "rua": {
+                    "type": "string",
+                    "example": "Rua das Flores"
+                  },
+                  "numero": {
+                    "type": "string",
+                    "example": "100"
+                  },
+                  "bairro": {
+                    "type": "string",
+                    "example": "Centro"
+                  },
+                  "cidade": {
+                    "type": "string",
+                    "example": "São Paulo"
+                  },
+                  "estado": {
+                    "type": "string",
+                    "example": "SP"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Cliente criado com sucesso."
+            },
+            "400": {
+              "description": "Dados inválidos fornecidos."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        },
+        "get": {
+          "summary": "Listar clientes",
+          "description": "Retorna uma lista de todos os clientes.",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de clientes retornada com sucesso."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      },
+      "/clientes/{id}": {
+        "get": {
+          "summary": "Obter dados de um cliente",
+          "description": "Retorna os dados de um cliente específico.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do cliente."
+            },
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do cliente retornados com sucesso."
+            },
+            "400": {
+              "description": "ID do cliente inválido."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "404": {
+              "description": "Cliente não encontrado."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualizar dados de um cliente",
+          "description": "Atualiza os dados de um cliente específico.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do cliente."
+            },
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-00"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "cliente@example.com"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Maria Oliveira"
+                  },
+                  "cep": {
+                    "type": "string",
+                    "example": "12345-678"
+                  },
+                  "rua": {
+                    "type": "string",
+                    "example": "Rua das Flores"
+                  },
+                  "numero": {
+                    "type": "string",
+                    "example": "100"
+                  },
+                  "bairro": {
+                    "type": "string",
+                    "example": "Centro"
+                  },
+                  "cidade": {
+                    "type": "string",
+                    "example": "São Paulo"
+                  },
+                  "estado": {
+                    "type": "string",
+                    "example": "SP"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do cliente atualizados com sucesso."
+            },
+            "400": {
+              "description": "Dados inválidos fornecidos."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "404": {
+              "description": "Cliente não encontrado."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      },
+      "/produtos/": {
+        "post": {
+          "summary": "Registrar um novo produto",
+          "description": "Cria um novo produto na aplicação.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": ["descricao", "quantidade_estoque", "valor", "categoria_id"],
+                "properties": {
+                  "descricao": {
+                    "type": "string",
+                    "example": "Produto A"
+                  },
+                  "quantidade_estoque": {
+                    "type": "integer",
+                    "example": 100
+                  },
+                  "valor": {
+                    "type": "number",
+                    "example": 99.99
+                  },
+                  "categoria_id": {
+                    "type": "string",
+                    "example": "1"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Produto criado com sucesso."
+            },
+            "400": {
+              "description": "Dados inválidos fornecidos."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        },
+        "get": {
+          "summary": "Listar produtos",
+          "description": "Retorna uma lista de todos os produtos.",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            },
+            {
+              "name": "categoria_id",
+              "in": "query",
+              "type": "string",
+              "description": "ID da categoria para filtrar produtos."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de produtos retornada com sucesso."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      },
+      "/produtos/{id}": {
+        "get": {
+          "summary": "Obter dados de um produto",
+          "description": "Retorna os dados de um produto específico.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do produto."
+            },
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do produto retornados com sucesso."
+            },
+            "400": {
+              "description": "ID do produto inválido."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "404": {
+              "description": "Produto não encontrado."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualizar dados de um produto",
+          "description": "Atualiza os dados de um produto específico.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do produto."
+            },
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "descricao": {
+                    "type": "string",
+                    "example": "Produto A"
+                  },
+                  "quantidade_estoque": {
+                    "type": "integer",
+                    "example": 100
+                  },
+                  "valor": {
+                    "type": "number",
+                    "example": 99.99
+                  },
+                  "categoria_id": {
+                    "type": "string",
+                    "example": "1"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do produto atualizados com sucesso."
+            },
+            "400": {
+              "description": "Dados inválidos fornecidos."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "404": {
+              "description": "Produto não encontrado."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        },
+        "delete": {
+          "summary": "Excluir um produto",
+          "description": "Exclui um produto específico.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do produto."
+            },
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Produto excluído com sucesso."
+            },
+            "400": {
+              "description": "ID do produto inválido."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "404": {
+              "description": "Produto não encontrado."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      },
+      "/pedidos/": {
+        "post": {
+          "summary": "Criar um novo pedido",
+          "description": "Cria um novo pedido na aplicação.",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": ["cliente_id", "pedido_produtos"],
+                "properties": {
+                  "cliente_id": {
+                    "type": "string",
+                    "example": "1"
+                  },
+                  "observacao": {
+                    "type": "string",
+                    "example": "Entregar no período da tarde."
+                  },
+                  "pedido_produtos": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "produto_id": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "quantidade": {
+                          "type": "integer",
+                          "example": 2
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Pedido criado com sucesso."
+            },
+            "400": {
+              "description": "Dados inválidos fornecidos."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "404": {
+              "description": "Cliente ou produto não encontrado."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        },
+        "get": {
+          "summary": "Listar pedidos",
+          "description": "Retorna uma lista de todos os pedidos.",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true,
+              "description": "Token de autenticação."
+            },
+            {
+              "name": "cliente_id",
+              "in": "query",
+              "type": "string",
+              "description": "ID do cliente para filtrar pedidos."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de pedidos retornada com sucesso."
+            },
+            "401": {
+              "description": "Usuário não autorizado."
+            },
+            "403": {
+              "description": "Acesso proibido."
+            },
+            "500": {
+              "description": "Erro interno do servidor."
+            }
+          }
+        }
+      }
+    }
+  }
+  

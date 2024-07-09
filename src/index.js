@@ -4,28 +4,12 @@ const app = express();
 const porta = process.env.PORT || 3000;
 
 const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
+const fs = require("fs");
+const path = require("path");
 
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "API PDV",
-      version: "1.0.0",
-      description: "Documentação da API do PDV",
-    },
-    servers: [
-      {
-        url: `http://localhost:${porta}`,
-      },
-    ],
-  },
-  apis: ["./src/rotas/*.js"], // Caminho para os arquivos de rotas
-};
+const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, "swagger.json"), "utf8"));
 
-const specs = swaggerJsdoc(options);
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(express.json());
 
