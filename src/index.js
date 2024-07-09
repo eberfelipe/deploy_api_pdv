@@ -6,8 +6,16 @@ const porta = process.env.PORT || 3000;
 const swaggerUi = require("swagger-ui-express");
 const fs = require("fs");
 const path = require("path");
+const cors = require("cors");
 
 const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, "swagger.json"), "utf8"));
+
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://deploy-api-pdv.onrender.com"],
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
