@@ -28,7 +28,7 @@
         "description": "Retorna uma lista de todas as categorias disponíveis.",
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -139,7 +139,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -190,7 +190,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -294,7 +294,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -335,7 +335,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -426,7 +426,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -516,7 +516,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -557,7 +557,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -628,7 +628,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -673,7 +673,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -748,7 +748,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -792,7 +792,7 @@
         ],
         "security": [
           {
-            "ApiKeyAuth": []
+            "Bearer": []
           }
         ],
         "responses": {
@@ -813,10 +813,16 @@
     }
   },
   "securityDefinitions": {
-    "ApiKeyAuth": {
+    "Bearer": {
       "type": "apiKey",
+      "name": "Authorization",
       "in": "header",
-      "name": "Authorization"
+      "description": "Insira o token no formato: Bearer {token}"
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
 }
