@@ -130,7 +130,7 @@
         "description": "Retorna os dados do perfil do usuário autenticado.",
         "parameters": [
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string",
             "required": true,
@@ -153,17 +153,65 @@
             "description": "Acesso proibido."
           }
         }
+      },
+      "put": {
+        "summary": "Atualizar perfil do usuário",
+        "description": "Atualiza os dados do perfil do usuário autenticado.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "Token de autenticação."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "joao@example.com"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "nova_senha123"
+                }
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Perfil atualizado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos fornecidos."
+          },
+          "401": {
+            "description": "Usuário não autorizado."
+          },
+          "403": {
+            "description": "Acesso proibido."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        }
       }
-    }
-  },
-  "securityDefinitions": {
-    "BearerAuth": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header",
-      "description": "Insira o token no formato: Bearer <token>"
-    }
-  },
+    },
     "/clientes/": {
       "post": {
         "summary": "Registrar um novo cliente",
