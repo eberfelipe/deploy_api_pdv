@@ -18,7 +18,20 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
-  explorer: true
+  swaggerOptions: {
+    authAction: {
+      ApiKeyAuth: {
+        name: "api_key",
+        schema: {
+          type: "apiKey",
+          in: "header",
+          name: "Authorization",
+          description: ""
+        },
+        value: process.env.SWAGGER_API_KEY
+      }
+    }
+  }
 }));
 
 app.use(express.json());

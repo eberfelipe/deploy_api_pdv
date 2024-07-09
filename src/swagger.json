@@ -139,7 +139,7 @@
         ],
         "security": [
           {
-            "BearerAuth": []
+            "ApiKeyAuth": []
           }
         ],
         "responses": {
