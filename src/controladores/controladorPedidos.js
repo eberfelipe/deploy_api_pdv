@@ -1,4 +1,4 @@
-const knex = require('../config/database'); 
+const knex = require('../config/database');
 
 const cadastrarPedido = async (req, res) => {
   const { cliente_id, observacao, pedido_produtos } = req.body;
