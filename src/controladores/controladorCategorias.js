@@ -1,4 +1,4 @@
-const knex = require('../config/database');
+const knex = require('../config/database'); // Caminho corrigido
 
 const listarCategorias = async (req, res) => {
   try {

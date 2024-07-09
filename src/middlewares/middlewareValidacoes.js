@@ -1,4 +1,4 @@
-const knex = require("../config/database");
+const knex = require('../config/database');
 
 const validarCampos = (camposObrigatorios) => (req, res, next) => {
   for (const campo of camposObrigatorios) {

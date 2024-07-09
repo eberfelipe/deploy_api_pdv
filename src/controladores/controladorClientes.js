@@ -1,4 +1,4 @@
-const knex = require('../config/database');
+const knex = require('../config/database'); // Caminho corrigido
 
 const atualizarCliente = async (req, res) => {
     const { id } = req.params;

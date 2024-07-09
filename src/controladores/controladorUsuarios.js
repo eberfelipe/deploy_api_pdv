@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const db = require("../config/database");
+const knex = require('../config/database'); // Caminho corrigido
 const jwt = require("jsonwebtoken");
 
 const registrarUsuario = async (req, res) => {
@@ -10,7 +10,7 @@ const registrarUsuario = async (req, res) => {
     }
 
     try {
-        const emailExistente = await db("usuarios").where({ email }).first();
+        const emailExistente = await knex("usuarios").where({ email }).first();
 
         if (emailExistente) {
             return res.status(400).json({ mensagem: "O email usado já existe" });
@@ -18,7 +18,7 @@ const registrarUsuario = async (req, res) => {
 
         const senhaCriptografada = await bcrypt.hash(senha, 10);
 
-        const [idUsuario] = await db("usuarios").insert({
+        const [idUsuario] = await knex("usuarios").insert({
             nome,
             email,
             senha: senhaCriptografada
@@ -38,7 +38,7 @@ const logarUsuario = async (req, res) => {
     }
 
     try {
-        const usuario = await db('usuarios').where({ email }).first();
+        const usuario = await knex('usuarios').where({ email }).first();
 
         if (!usuario || !(await bcrypt.compare(senha, usuario.senha))) {
             return res.status(401).json({ mensagem: 'Credenciais inválidas' });
@@ -65,7 +65,7 @@ const atualizarPerfilUsuario = async (req, res) => {
 
     try {
         const senhaCriptografada = await bcrypt.hash(senha, 10);
-        await db('usuarios').where({ id }).update({ nome, email, senha: senhaCriptografada });
+        await knex('usuarios').where({ id }).update({ nome, email, senha: senhaCriptografada });
         res.status(200).json({ mensagem: 'Perfil atualizado com sucesso' });
     } catch (error) {
         res.status(500).json({ mensagem: 'Erro interno do servidor: ' + error.message });

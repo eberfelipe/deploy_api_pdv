@@ -6,14 +6,14 @@ const {
   validarCampos,
   verificarCpfEmailExistenteAtualizacao,
   validarNovoCliente
-} = require('../middlewares/middlewareClientes');
+} = require('../middlewares/middlewareValidacoes'); 
 const {
   registrarCliente,
   listarClientes,
   obterDetalhesCliente,
   atualizarCliente
-} = require('../controladores/controladorClientes');
-const autenticarToken = require('../middlewares/middlewareAutenticacao');
+} = require('../controladores/controladorClientes'); 
+const autenticarToken = require('../middlewares/middlewareAutenticacao'); 
 
 router.post('/', validarCampos(['nome', 'email', 'cpf']), validarNovoCliente, registrarCliente);
 

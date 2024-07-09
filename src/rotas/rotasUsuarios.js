@@ -5,11 +5,11 @@ const {
   logarUsuario,
   obterPerfilUsuario,
   atualizarPerfilUsuario
-} = require('../controladores/controladorUsuarios');
+} = require('../controladores/controladorUsuarios'); 
 const {
   validarCampos
-} = require('../middlewares/middlewareClientes'); // Usando o mesmo middleware de validação de campos
-const autenticarToken = require('../middlewares/middlewareAutenticacao');
+} = require('../middlewares/middlewareValidacoes'); 
+const autenticarToken = require('../middlewares/middlewareAutenticacao'); 
 
 router.post('/registro', validarCampos(['nome', 'email', 'senha']), registrarUsuario);
 
