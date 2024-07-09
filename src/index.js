@@ -12,12 +12,27 @@ const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, "swagger
 
 const corsOptions = {
   origin: ["http://localhost:3000", "https://deploy-api-pdv.onrender.com"],
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200 // For legacy browser support
 };
 
 app.use(cors(corsOptions));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+  swaggerOptions: {
+    authAction: {
+      ApiKeyAuth: {
+        name: "api_key",
+        schema: {
+          type: "apiKey",
+          in: "header",
+          name: "Authorization",
+          description: ""
+        },
+        value: process.env.SWAGGER_API_KEY
+      }
+    }
+  }
+}));
 
 app.use(express.json());
 
